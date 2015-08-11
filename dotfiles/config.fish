@@ -1,4 +1,4 @@
-set -x HOMEBREW_GITHUB_API_TOKEN ba379bd8e6445ab5b247bc0a839bdda7e58a465b
+#set -x HOMEBREW_GITHUB_API_TOKEN xxx
 set -gx GITHUB_USER vachaspathy
 
 set -x PATH $PATH /sbin/ $HOME/.rbenv/shims $HOME/.pyenv/shims/
