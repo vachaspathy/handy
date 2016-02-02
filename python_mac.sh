@@ -13,3 +13,6 @@ pyenv global 2.7.10
 
 # install packages
 pip install numpy pandas scikit-learn ipython notebook
+
+# Start ipython server
+nohup ipython notebook --no-browser --port 8888 --notebook-dir ./notebooks > notebook.log & 
