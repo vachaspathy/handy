@@ -21,3 +21,6 @@ brew cask install skype
 brew cask install the-unarchiver
 
 brew install fish
+brew install curl
+brew install maven
+brew install awk
