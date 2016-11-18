@@ -13,7 +13,7 @@ brew install homebrew/completions/brew-cask-completion
 brew install brew-cask
 
 brew cask install google-chrome
-brew cask install caffeine
+brew install Caskroom/cask/caffeine
 brew cask install firefox
 brew cask install iterm2
 brew cask install sublime-text
