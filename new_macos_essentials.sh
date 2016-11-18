@@ -20,6 +20,10 @@ brew cask install sublime-text
 brew cask install skype
 brew cask install the-unarchiver
 
+brew cask install Caskroom/cask/virtualbox
+brew install docker
+brew install boot2docker
+
 brew install fish
 brew install curl
 brew install maven
