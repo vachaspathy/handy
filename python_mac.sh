@@ -1,7 +1,7 @@
 #Install pyenv
 brew upgrade
 brew install pyenv
-echo "if which pyenv > /dev/null; then eval "\$\(pyenv init -\)"; fi" >> ~/.profile
+echo "if which pyenv > /dev/null; then eval \"\$\(pyenv init -\)\"; fi" >> ~/.profile
 
 # install pip
 brew install pip
