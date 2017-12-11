@@ -1,23 +1,7 @@
 ## Getting Started
 
-- Install Virtual Box https://www.virtualbox.org/wiki/Downloads
-- On Mac Os, Install boot2docker from https://docs.docker.com/installation/mac/
-- After installation Run the VM for boot2docker
+https://docs.docker.com/get-started/
 
-```unix
-boot2docker init
-boot2docker up
-```
-- Have boot2docker initialized in current shell run
-
-```unix
-eval $(boot2docker shellinit)
-```
-- Have the shell initailization in across all shells
-
-```unix
-echo eval \$(boot2docker shellinit) >> ~/.profile
-```
 - Running local registry on localhost:5000
 
 ```unix
