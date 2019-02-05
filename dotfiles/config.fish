@@ -16,9 +16,8 @@ function ll
     ls -lsah $argv
 end
 
-
-eval (boot2docker shellinit)
-eval (pyenv init -)
+# pyenv
+pyenv init - | source
 
 # Fish Prompt
 
