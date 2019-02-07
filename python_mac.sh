@@ -1,15 +1,16 @@
 #Install pyenv
 brew upgrade
 brew install pyenv
-echo "if which pyenv > /dev/null; then eval \"\$\(pyenv init -\)\"; fi" >> ~/.profile
+brew install pyenv-virtualenv
+echo "if which pyenv > /dev/null; then eval \"\$(pyenv init - )\"; eval \"\$(pyenv virtualenv-init - )\"; fi" >> ~/.profile
 
 # install pip
-brew install pip
-pip install --upgrade pip
+# brew install pip
+# pip install --upgrade pip
 
 # Install python
-pyenv install 2.7.10
-pyenv global 2.7.10
+pyenv install 3.6.6
+pyenv global 3.6.6
 
 # install packages
 pip install numpy pandas scikit-learn ipython notebook
