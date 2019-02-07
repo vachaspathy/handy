@@ -4,6 +4,9 @@ brew install pyenv
 brew install pyenv-virtualenv
 echo "if which pyenv > /dev/null; then eval \"\$(pyenv init - )\"; eval \"\$(pyenv virtualenv-init - )\"; fi" >> ~/.profile
 
+export CPPFLAGS="-I/usr/local/opt/zlib/include"
+export LDFLAGS="-L/usr/local/opt/zlib/lib"
+
 # install pip
 # brew install pip
 # pip install --upgrade pip
