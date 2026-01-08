@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cursor IDE Cheat Sheet</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --bg-card: #21262d;
+            --text-primary: #e6edf3;
+            --text-secondary: #8b949e;
+            --accent-purple: #a371f7;
+            --accent-blue: #58a6ff;
+            --accent-green: #3fb950;
+            --accent-orange: #d29922;
+            --accent-pink: #f778ba;
+            --border-color: #30363d;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.5;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-card) 100%);
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-purple), var(--accent-blue), var(--accent-pink));
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .platform-badge {
+            display: inline-block;
+            background: var(--accent-purple);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-header {
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .card-icon {
+            font-size: 1.25rem;
+        }
+
+        .card-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .card.file .card-header { background: linear-gradient(135deg, rgba(88, 166, 255, 0.1), transparent); }
+        .card.file .card-title { color: var(--accent-blue); }
+
+        .card.search .card-header { background: linear-gradient(135deg, rgba(163, 113, 247, 0.1), transparent); }
+        .card.search .card-title { color: var(--accent-purple); }
+
+        .card.edit .card-header { background: linear-gradient(135deg, rgba(63, 185, 80, 0.1), transparent); }
+        .card.edit .card-title { color: var(--accent-green); }
+
+        .card.cursor .card-header { background: linear-gradient(135deg, rgba(210, 153, 34, 0.1), transparent); }
+        .card.cursor .card-title { color: var(--accent-orange); }
+
+        .card.nav .card-header { background: linear-gradient(135deg, rgba(247, 120, 186, 0.1), transparent); }
+        .card.nav .card-title { color: var(--accent-pink); }
+
+        .card.ai .card-header { 
+            background: linear-gradient(135deg, rgba(163, 113, 247, 0.2), rgba(88, 166, 255, 0.1)); 
+        }
+        .card.ai .card-title { 
+            background: linear-gradient(90deg, var(--accent-purple), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .card-body {
+            padding: 0.5rem 0;
+        }
+
+        .shortcut-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 1.25rem;
+            transition: background 0.15s;
+        }
+
+        .shortcut-row:hover {
+            background: var(--bg-card);
+        }
+
+        .action {
+            font-size: 0.9rem;
+            color: var(--text-primary);
+        }
+
+        .keys {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            display: flex;
+            gap: 0.25rem;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        kbd {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 0.2rem 0.5rem;
+            font-size: 0.75rem;
+            color: var(--text-primary);
+            box-shadow: 0 2px 0 var(--border-color);
+            white-space: nowrap;
+        }
+
+        .key-separator {
+            color: var(--text-secondary);
+            padding: 0 0.15rem;
+        }
+
+        .tips-section {
+            margin-top: 2rem;
+            background: linear-gradient(135deg, var(--bg-secondary), var(--bg-card));
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            padding: 1.5rem;
+        }
+
+        .tips-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--accent-orange);
+        }
+
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+
+        .tip {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            font-size: 0.9rem;
+        }
+
+        .tip-icon {
+            color: var(--accent-green);
+            font-size: 1rem;
+        }
+
+        .tip-text {
+            color: var(--text-secondary);
+        }
+
+        .tip-text kbd {
+            font-size: 0.7rem;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1.5rem;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        .print-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+            color: white;
+            border: none;
+            padding: 1rem 1.5rem;
+            border-radius: 50px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(163, 113, 247, 0.4);
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .print-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(163, 113, 247, 0.5);
+        }
+
+        @media print {
+            body {
+                background: white;
+                color: #1a1a1a;
+                font-size: 11px;
+            }
+
+            .container {
+                padding: 0.5rem;
+                max-width: 100%;
+            }
+
+            header {
+                margin-bottom: 1rem;
+                padding: 1rem;
+                background: #f5f5f5;
+                border: 1px solid #ddd;
+            }
+
+            header::before {
+                display: none;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+                color: #1a1a1a;
+                -webkit-text-fill-color: #1a1a1a;
+            }
+
+            .grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 0.75rem;
+            }
+
+            .card {
+                break-inside: avoid;
+                border: 1px solid #ddd;
+                background: white;
+            }
+
+            .card:hover {
+                transform: none;
+                box-shadow: none;
+            }
+
+            .card-header {
+                padding: 0.5rem 0.75rem;
+                background: #f5f5f5 !important;
+            }
+
+            .card-title {
+                color: #1a1a1a !important;
+                -webkit-text-fill-color: #1a1a1a !important;
+                font-size: 0.8rem;
+            }
+
+            .shortcut-row {
+                padding: 0.25rem 0.75rem;
+            }
+
+            .action {
+                font-size: 0.75rem;
+                color: #1a1a1a;
+            }
+
+            kbd {
+                background: #f0f0f0;
+                border: 1px solid #ccc;
+                color: #1a1a1a;
+                font-size: 0.65rem;
+                padding: 0.1rem 0.3rem;
+                box-shadow: none;
+            }
+
+            .tips-section {
+                margin-top: 1rem;
+                padding: 0.75rem;
+                background: #f5f5f5;
+            }
+
+            .print-btn {
+                display: none;
+            }
+
+            footer {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>⌨️ Cursor IDE Cheat Sheet</h1>
+            <p class="subtitle">Master your workflow with these essential keyboard shortcuts</p>
+            <span class="platform-badge">macOS</span>
+        </header>
+
+        <div class="grid">
+            <!-- File Navigation -->
+            <div class="card file">
+                <div class="card-header">
+                    <span class="card-icon">📁</span>
+                    <span class="card-title">File Navigation</span>
+                </div>
+                <div class="card-body">
+                    <div class="shortcut-row">
+                        <span class="action">Quick Open (find file)</span>
+                        <span class="keys"><kbd>⌘</kbd><kbd>P</kbd></span>
+                    </div>
+                    <div class="shortcut-row">
+                        <span class="action">Command Palette</span>
+                        <span class="keys"><kbd>⌘</kbd><kbd>⇧</kbd><kbd>P</kbd></span>
+                    </div>
+                    <div class="shortcut-row">
+                        <span class="action">File Explorer</span>
+                        <span class="keys"><kbd>⌘</kbd><kbd>⇧</kbd><kbd>E</kbd></span>
+                    </div>
+                    <div class="shortcut-row">
+                        <span class="action">Close File</span>
+                        <span class="keys"><kbd>⌘</kbd><kbd>W</kbd></span>
+                    </div>
+                    <div class="shortcut-row">
+                        <span class="action">Reopen Closed File</span>
+                        <span class="keys"><kbd>⌘</kbd><kbd>⇧</kbd><kbd>T</kbd></span>
+                    </div>
+                    <div class="shortcut-row">
+                        <span class="action">New File</span>
+                        <span class="keys"><kbd>⌘</kbd><kbd>N</kbd></span>
+                    </div>
+                    <div class="shortcut-row">
+                        <span class="action">Save</span>
+                        <span class="keys"><kbd>⌘</kbd><kbd>S</kbd></span>
+                    </div>
+                    <div class="shortcut-row">
+                        <span class="action">Save All</span>
+                        <span class="keys"><kbd>⌘</kbd><kbd>⌥</kbd><kbd>S</kbd></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Search & Replace -->
+            <div class="card search">
+                <div class="card-header">
+                    <span class="card-icon">🔍</span>
+                    <span class="card-title">Search & Replace</span>
+                </div>
+                <div class="card-body">
+                    <div class="shortcut-row">
+                        <span class="action">Find in File</span>
+                        <span class="keys"><kbd>⌘</kbd><kbd>F</kbd></span>
+                    </div>
+                    <div class="shortcut-row">
+                        <span class="action">Replace in File</span>
+                        <span class="keys"><kbd>⌘</kbd><kbd>⌥</kbd><kbd>F</kbd></span>
+                    </div>
+                    <div class="shortcut-row">
+                        <span class="action">Find in All Files</span>
+                        <span class="keys"><kbd>⌘</kbd><kbd>⇧</kbd><kbd>F</kbd></span>
+                    </div>
+                    <div class="shortcut-row">
+                        <span class="action">Replace in All Files</span>
+                        <span class="keys"><kbd>⌘</kbd><kbd>⇧</kbd><kbd>H</kbd></span>
+                    </div>
+                    <div class="shortcut-row">
+                        <span class="action">Find Next</span>
+                        <span class="keys"><kbd>⌘</kbd><kbd>G</kbd></span>
+                    </div>
+                    <div class="shortcut-row">
+                        <span class="action">Find Previous</span>
+                        <span class="keys"><kbd>⌘</kbd><kbd>⇧</kbd><kbd>G</kbd></span>
+                    </div>
+                    <div class="shortcut-row">
+                        <span class="action">Go to Line</span>
+                        <span class="keys"><kbd>⌃</kbd><kbd>G</kbd></span>
+                    </div>
+                    <div class="shortcut-row">
+                        <span class="action">Go to Symbol</span>
+                        <span class="keys"><kbd>⌘</kbd><kbd>⇧</kbd><kbd>O</kbd></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Editing -->
+            <div class="card edit">
+                <div class="card-header">
+                    <span class="card-icon">✏️</span>
+                    <span class="card-title">Editing</span>
+                </div>
+                <div class="card-body">
+                    <div class="shortcut-row">
+                        <span class="action">Delete Line</span>
+                        <span class="keys"><kbd>⌘</kbd><kbd>⇧</kbd><kbd>K</kbd></span>
+                    </div>
+                    <div class="shortcut-row">
+                        <span class="action">Duplicate Line</span>
+                        <span class="keys"><kbd>⌘</kbd><kbd>⇧</kbd><kbd>D</kbd></span>
+                    </div>
+                    <div class="shortcut-row">
+                        <span class="action">Move Line Up</span>
+                        <span class="keys"><kbd>⌥</kbd><kbd>↑</kbd></span>
+                    </div>
+                    <div class="shortcut-row">
+                        <span class="action">Move Line Down</span>
+                        <span class="keys"><kbd>⌥</kbd><kbd>↓</kbd></span>
+                    </div>
+                    <div class="shortcut-row">
+                        <span class="action">Toggle Comment</span>
+                        <span class="keys"><kbd>⌘</kbd><kbd>/</kbd></span>
+                    </div>
+                    <div class="shortcut-row">
+                        <span class="action">Indent Line</span>
+                        <span class="keys"><kbd>⌘</kbd><kbd>]</kbd></span>
+                    </div>
+                    <div class="shortcut-row">
+                        <span class="action">Outdent Line</span>
+                        <span class="keys"><kbd>⌘</kbd><kbd>[</kbd></span>
+                    </div>
+                    <div class="shortcut-row">
+                        <span class="action">Format Document</span>
+                        <span class="keys"><kbd>⌘</kbd><kbd>⇧</kbd><kbd>F</kbd></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Multi-Cursor -->
+            <div class="card cursor">
+                <div class="card-header">
+                    <span class="card-icon">🎯</span>
+                    <span class="card-title">Multi-Cursor & Selection</span>
+                </div>
+                <div class="card-body">
+                    <div class="shortcut-row">
+                        <span class="action">Add Cursor Above</span>
+                        <span class="keys"><kbd>⌘</kbd><kbd>⌥</kbd><kbd>↑</kbd></span>
+                    </div>
+                    <div class="shortcut-row">
+                        <span class="action">Add Cursor Below</span>
+                        <span class="keys"><kbd>⌘</kbd><kbd>⌥</kbd><kbd>↓</kbd></span>
+                    </div>
+                    <div class="shortcut-row">
+                        <span class="action">Add Cursor at Click</span>
+                        <span class="keys"><kbd>⌥</kbd><kbd>Click</kbd></span>
+                    </div>
+                    <div class="shortcut-row">
+                        <span class="action">Select All Occurrences</span>
+                        <span class="keys"><kbd>⌘</kbd><kbd>⇧</kbd><kbd>L</kbd></span>
+                    </div>
+                    <div class="shortcut-row">
+                        <span class="action">Select Next Occurrence</span>
+                        <span class="keys"><kbd>⌘</kbd><kbd>D</kbd></span>
+                    </div>
+                    <div class="shortcut-row">
+                        <span class="action">Select Line</span>
+                        <span class="keys"><kbd>⌘</kbd><kbd>L</kbd></span>
+                    </div>
+                    <div class="shortcut-row">
+                        <span class="action">Column Selection</span>
+                        <span class="keys"><kbd>⇧</kbd><kbd>⌥</kbd><kbd>Drag</kbd></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Code Navigation -->
+            <div class="card nav">
+                <div class="card-header">
+                    <span class="card-icon">🧭</span>
+                    <span class="card-title">Code Navigation</span>
+                </div>
+                <div class="card-body">
+                    <div class="shortcut-row">
+                        <span class="action">Go to Definition</span>
+                        <span class="keys"><kbd>F12</kbd> <span class="key-separator">or</span> <kbd>⌘</kbd><kbd>Click</kbd></span>
+                    </div>
+                    <div class="shortcut-row">
+                        <span class="action">Peek Definition</span>
+                        <span class="keys"><kbd>⌥</kbd><kbd>F12</kbd></span>
+                    </div>
+                    <div class="shortcut-row">
+                        <span class="action">Go to References</span>
+                        <span class="keys"><kbd>⇧</kbd><kbd>F12</kbd></span>
+                    </div>
+                    <div class="shortcut-row">
+                        <span class="action">Go Back</span>
+                        <span class="keys"><kbd>⌃</kbd><kbd>-</kbd></span>
+                    </div>
+                    <div class="shortcut-row">
+                        <span class="action">Go Forward</span>
+                        <span class="keys"><kbd>⌃</kbd><kbd>⇧</kbd><kbd>-</kbd></span>
+                    </div>
+                    <div class="shortcut-row">
+                        <span class="action">Fold Region</span>
+                        <span class="keys"><kbd>⌘</kbd><kbd>⌥</kbd><kbd>[</kbd></span>
+                    </div>
+                    <div class="shortcut-row">
+                        <span class="action">Unfold Region</span>
+                        <span class="keys"><kbd>⌘</kbd><kbd>⌥</kbd><kbd>]</kbd></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Features -->
+            <div class="card ai">
+                <div class="card-header">
+                    <span class="card-icon">🤖</span>
+                    <span class="card-title">Cursor AI Features</span>
+                </div>
+                <div class="card-body">
+                    <div class="shortcut-row">
+                        <span class="action">Open Chat</span>
+                        <span class="keys"><kbd>⌘</kbd><kbd>L</kbd></span>
+                    </div>
+                    <div class="shortcut-row">
+                        <span class="action">Inline Edit (Cmd+K)</span>
+                        <span class="keys"><kbd>⌘</kbd><kbd>K</kbd></span>
+                    </div>
+                    <div class="shortcut-row">
+                        <span class="action">Composer (Agent)</span>
+                        <span class="keys"><kbd>⌘</kbd><kbd>I</kbd></span>
+                    </div>
+                    <div class="shortcut-row">
+                        <span class="action">Accept AI Suggestion</span>
+                        <span class="keys"><kbd>Tab</kbd></span>
+                    </div>
+                    <div class="shortcut-row">
+                        <span class="action">Reject AI Suggestion</span>
+                        <span class="keys"><kbd>Esc</kbd></span>
+                    </div>
+                    <div class="shortcut-row">
+                        <span class="action">Add Selection to Chat</span>
+                        <span class="keys"><kbd>⌘</kbd><kbd>⇧</kbd><kbd>L</kbd></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Window & Panels -->
+            <div class="card file">
+                <div class="card-header">
+                    <span class="card-icon">🪟</span>
+                    <span class="card-title">Window & Panels</span>
+                </div>
+                <div class="card-body">
+                    <div class="shortcut-row">
+                        <span class="action">Toggle Sidebar</span>
+                        <span class="keys"><kbd>⌘</kbd><kbd>B</kbd></span>
+                    </div>
+                    <div class="shortcut-row">
+                        <span class="action">Toggle Terminal</span>
+                        <span class="keys"><kbd>⌃</kbd><kbd>`</kbd></span>
+                    </div>
+                    <div class="shortcut-row">
+                        <span class="action">New Terminal</span>
+                        <span class="keys"><kbd>⌃</kbd><kbd>⇧</kbd><kbd>`</kbd></span>
+                    </div>
+                    <div class="shortcut-row">
+                        <span class="action">Toggle Problems</span>
+                        <span class="keys"><kbd>⌘</kbd><kbd>⇧</kbd><kbd>M</kbd></span>
+                    </div>
+                    <div class="shortcut-row">
+                        <span class="action">Split Editor</span>
+                        <span class="keys"><kbd>⌘</kbd><kbd>\</kbd></span>
+                    </div>
+                    <div class="shortcut-row">
+                        <span class="action">Zen Mode</span>
+                        <span class="keys"><kbd>⌘</kbd><kbd>K</kbd> <kbd>Z</kbd></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Debugging -->
+            <div class="card edit">
+                <div class="card-header">
+                    <span class="card-icon">🐛</span>
+                    <span class="card-title">Debugging</span>
+                </div>
+                <div class="card-body">
+                    <div class="shortcut-row">
+                        <span class="action">Start/Continue</span>
+                        <span class="keys"><kbd>F5</kbd></span>
+                    </div>
+                    <div class="shortcut-row">
+                        <span class="action">Stop Debugging</span>
+                        <span class="keys"><kbd>⇧</kbd><kbd>F5</kbd></span>
+                    </div>
+                    <div class="shortcut-row">
+                        <span class="action">Step Over</span>
+                        <span class="keys"><kbd>F10</kbd></span>
+                    </div>
+                    <div class="shortcut-row">
+                        <span class="action">Step Into</span>
+                        <span class="keys"><kbd>F11</kbd></span>
+                    </div>
+                    <div class="shortcut-row">
+                        <span class="action">Step Out</span>
+                        <span class="keys"><kbd>⇧</kbd><kbd>F11</kbd></span>
+                    </div>
+                    <div class="shortcut-row">
+                        <span class="action">Toggle Breakpoint</span>
+                        <span class="keys"><kbd>F9</kbd></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="card search">
+                <div class="card-header">
+                    <span class="card-icon">⚡</span>
+                    <span class="card-title">Quick Actions</span>
+                </div>
+                <div class="card-body">
+                    <div class="shortcut-row">
+                        <span class="action">Quick Fix / Code Actions</span>
+                        <span class="keys"><kbd>⌘</kbd><kbd>.</kbd></span>
+                    </div>
+                    <div class="shortcut-row">
+                        <span class="action">Rename Symbol</span>
+                        <span class="keys"><kbd>F2</kbd></span>
+                    </div>
+                    <div class="shortcut-row">
+                        <span class="action">Trigger Suggest</span>
+                        <span class="keys"><kbd>⌃</kbd><kbd>Space</kbd></span>
+                    </div>
+                    <div class="shortcut-row">
+                        <span class="action">Parameter Hints</span>
+                        <span class="keys"><kbd>⌘</kbd><kbd>⇧</kbd><kbd>Space</kbd></span>
+                    </div>
+                    <div class="shortcut-row">
+                        <span class="action">Undo</span>
+                        <span class="keys"><kbd>⌘</kbd><kbd>Z</kbd></span>
+                    </div>
+                    <div class="shortcut-row">
+                        <span class="action">Redo</span>
+                        <span class="keys"><kbd>⌘</kbd><kbd>⇧</kbd><kbd>Z</kbd></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tips-section">
+            <h2 class="tips-title">💡 Pro Tips</h2>
+            <div class="tips-grid">
+                <div class="tip">
+                    <span class="tip-icon">✓</span>
+                    <span class="tip-text">Hold <kbd>⌘</kbd> while clicking to go to definition</span>
+                </div>
+                <div class="tip">
+                    <span class="tip-icon">✓</span>
+                    <span class="tip-text"><kbd>⌘</kbd><kbd>P</kbd> then type <kbd>@</kbd> to search symbols in file</span>
+                </div>
+                <div class="tip">
+                    <span class="tip-icon">✓</span>
+                    <span class="tip-text"><kbd>⌘</kbd><kbd>P</kbd> then type <kbd>:</kbd> to go to line number</span>
+                </div>
+                <div class="tip">
+                    <span class="tip-icon">✓</span>
+                    <span class="tip-text"><kbd>⌘</kbd><kbd>P</kbd> then type <kbd>></kbd> to open command palette</span>
+                </div>
+                <div class="tip">
+                    <span class="tip-icon">✓</span>
+                    <span class="tip-text">Press <kbd>Esc</kbd> to dismiss AI suggestions or close panels</span>
+                </div>
+                <div class="tip">
+                    <span class="tip-icon">✓</span>
+                    <span class="tip-text">Use <kbd>⌘</kbd><kbd>D</kbd> repeatedly to select multiple occurrences</span>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Cursor IDE Cheat Sheet • macOS Edition • Press the Print button or use ⌘+P to print</p>
+        </footer>
+    </div>
+
+    <button class="print-btn" onclick="window.print()">
+        🖨️ Print Cheat Sheet
+    </button>
+</body>
+</html>
+
